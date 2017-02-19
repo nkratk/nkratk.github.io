@@ -86,6 +86,10 @@
 				.then( (response) => response.json() )
 				.then((data) => {
 					this.setResponse(data.result.fulfillment.speech);
+					const speech = new SpeechSynthesisUtterance();
+					speech.lang = "en";
+					speech.text = data.result.fulfillment.speech;
+					speechSynthesis.speak(speech);
 				})
 				.catch((error) => {  
 				  this.setResponse("Internal Server Error");  
