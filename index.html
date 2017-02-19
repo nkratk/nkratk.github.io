@@ -17,99 +17,10 @@
 		<br>Response<br> <textarea id="response" cols="40" rows="20"></textarea>
 	</div>
 	
-	<script type="text/javascript">		
-		const config = {
-			accessToken : "84be447eb7db41cb98960ec925235256",
-			recognition : null,
-			baseUrl : "https://api.api.ai/v1/",
-			domElements : {
-				input : document.getElementById('input'),
-				record : document.getElementById('rec'),
-				response : document.getElementById('response'),
-			},
-			startRecognition: function () {
-				this.recognition = new webkitSpeechRecognition();
-				this.recognition.onstart = (event) => {
-					this.updateRec();
-				};
-				this.recognition.onresult = (event) => {
-					let text = "";
-					for (let i = event.resultIndex; i < event.results.length; ++i) {
-						text += event.results[i][0].transcript;
-					}
-					this.setInput(text);
-				};
-				this.recognition.onend = () => {
-					this.stopRecognition();
-				};
-				this.recognition.lang = "en-US";
-
-				this.recognition.start();
-			},
-			stopRecognition: function () {
-				if (this.recognition) {
-					this.recognition.stop();
-					this.recognition = null;
-				}
-				this.updateRec();
-			},
-			switchRecognition: function () {
-				this.recognition ? this.stopRecognition() : this.startRecognition();
-			},
-			updateRec: function () {
-				this.domElements.record.innerText = this.recognition ? "Stop" : "Speak";
-			},
-			setInput: function (text) {
-				this.domElements.input.value = text;
-				this.send();
-			},
-			setResponse: function (val) {
-				this.domElements.response.innerText = val;
-			},
-			send: function () {
-				const url = `${this.baseUrl}query?v=20150910`,
-					token = `Bearer${this.accessToken}`,
-					text = this.domElements.input.value;
-					
-				fetch(url, {  
-					method: 'POST',  
-					headers: {  
-						'Content-Type': 'application/json; charset=utf-8',
-						"Authorization": token 
-					},  
-					body: JSON.stringify({
-						query: text,
-						lang: "en",
-						sessionId: "<any random string>"
-					})
-				})
-				.then( (response) => response.json() )
-				.then((data) => {
-					this.setResponse(data.result.fulfillment.speech);
-					const speech = new SpeechSynthesisUtterance();
-					speech.lang = "en";
-					speech.text = data.result.fulfillment.speech;
-					speechSynthesis.speak(speech);
-				})
-				.catch((error) => {  
-				  this.setResponse("Internal Server Error");  
-				});
-				
-				this.setResponse("Loading...");
-			}
-		};
+	<script type="text/javascript">	
+		"use strict";var config={accessToken:"84be447eb7db41cb98960ec925235256",recognition:null,baseUrl:"https://api.api.ai/v1/",domElements:{input:document["getElementById"]("input"),record:document["getElementById"]("rec"),response:document["getElementById"]("response")},startRecognition:function startRecognition(){var _this=this;this["recognition"]=  new webkitSpeechRecognition();this["recognition"]["onstart"]= function(event){_this["updateRec"]()};this["recognition"]["onresult"]= function(event){var text="";for(var i=event["resultIndex"];i< event["results"]["length"];++i){text+= event["results"][i][0]["transcript"]};_this["setInput"](text)};this["recognition"]["onend"]= function(){_this["stopRecognition"]()};this["recognition"]["lang"]= "en-US";this["recognition"]["start"]()},stopRecognition:function stopRecognition(){if(this["recognition"]){this["recognition"]["stop"]();this["recognition"]= null};this["updateRec"]()},switchRecognition:function switchRecognition(){this["recognition"]?this["stopRecognition"]():this["startRecognition"]()},updateRec:function updateRec(){this["domElements"]["record"]["innerText"]= this["recognition"]?"Stop":"Speak"},setInput:function setInput(text){this["domElements"]["input"]["value"]= text;this["send"]()},setResponse:function setResponse(val){this["domElements"]["response"]["innerText"]= val},send:function send(){var _this2=this;var url=this["baseUrl"]+ "query?v=20150910",token="Bearer"+ this["accessToken"],text=this["domElements"]["input"]["value"];fetch(url,{method:"POST",headers:{"Content-Type":"application/json; charset=utf-8","Authorization":token},body:JSON["stringify"]({query:text,lang:"en",sessionId:"<any random string>"})})["then"](function(response){return response["json"]()})["then"](function(data){_this2["setResponse"](data["result"]["fulfillment"]["speech"]);var speech= new SpeechSynthesisUtterance();speech["lang"]= "en";speech["text"]= data["result"]["fulfillment"]["speech"];speechSynthesis["speak"](speech)})["catch"](function(error){_this2["setResponse"]("Internal Server Error")});this["setResponse"]("Loading...")}};config["domElements"]["input"]["addEventListener"]("keypress",function(evt){if(evt["which"]== 13){evt["preventDefault"]();config["send"]()}});config["domElements"]["record"]["addEventListener"]("click",function(evt){config["switchRecognition"]()})
 		
-		config.domElements.input.addEventListener('keypress', (evt) => {
-		  if (evt.which == 13) {
-			  evt.preventDefault();
-			  config.send();
-		  }
-		});
-
-		config.domElements.record.addEventListener('click', (evt) => {	
-			config.switchRecognition();
-		});
-
+		
 	</script>
 </body>
 </html>
