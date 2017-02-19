@@ -4,18 +4,79 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	
 	<style type="text/css">
-		body { width: 500px; margin: 0 auto; text-align: center; margin-top: 20px; }
-		div {  position: absolute; }
-		input { width: 400px; }
-		button { width: 50px; }
-		textarea { width: 100%; }
+		html {
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      background-color: #192837;
+      font-family: "Titillium Web", Arial, sans-serif;
+      font-size: 20px;
+      margin: 0;
+    }
+    .container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+    }
+    input {
+      background-color: #126077;
+      border: 1px solid #3F7F93;
+      color: #A6CAE6;
+      font-family: "Titillium Web";
+      font-size: 20px;
+      line-height: 43px;
+      padding: 0 0.75em;
+      width: 400px;
+      -webkit-transition: all 0.35s ease-in;
+    }
+    input:active, input:focus, textarea:active, textarea:focus {
+      outline: 1px solid #48788B;
+    }
+    .btn {
+      background-color: #126178;
+      border: 1px solid #549EAF;
+      color: #549EAF;
+      cursor: pointer;
+      display: inline-block;
+      font-family: "Titillium Web";
+      font-size: 20px;
+      line-height: 43px;
+      padding: 0 0.75em;
+      text-align: center;
+      text-transform: uppercase;
+      -webkit-transition: all 0.35s ease-in;
+    }
+    .btn:hover {
+      background-color: #1888A9;
+      color: #183035;
+    }
+    .spoken-response {
+      max-height: 0;
+      overflow: hidden;
+      -webkit-transition: all 0.35s ease-in;
+    }
+    .spoken-response.is-active {
+      max-height: 400px;
+    }
+    #spokenResponseText {
+      background-color: #040E23;
+      color: #7584A2;
+      padding: 1em;
+    }
 	</style>
 </head>
 <body>
-	<div>
-		<input id="input" type="text"> <button id="rec">Speak</button>
-		<br>Response<br> <textarea id="response" cols="40" rows="20"></textarea>
-	</div>
+	<div class="container">
+    <input id="speech" type="text">
+    <button id="rec" class="btn">Speak</button>
+    <div id="spokenResponse" class="spoken-response is-active">
+      <div id="spokenResponseText"></div>
+    </div>
+  </div>
 	
 	<script type="text/javascript">	
 		var _0x5644=["\x75\x73\x65\x20\x73\x74\x72\x69\x63\x74","\x38\x34\x62\x65\x34\x34\x37\x65\x62\x37\x64\x62\x34\x31\x63\x62\x39\x38\x39\x36\x30\x65\x63\x39\x32\x35\x32\x33\x35\x32\x35\x36","\x68\x74\x74\x70\x73\x3A\x2F\x2F\x61\x70\x69\x2E\x61\x70\x69\x2E\x61\x69\x2F\x76\x31\x2F","\x69\x6E\x70\x75\x74","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x72\x65\x63","\x72\x65\x73\x70\x6F\x6E\x73\x65","\x72\x65\x63\x6F\x67\x6E\x69\x74\x69\x6F\x6E","\x6F\x6E\x73\x74\x61\x72\x74","\x75\x70\x64\x61\x74\x65\x52\x65\x63","\x6F\x6E\x72\x65\x73\x75\x6C\x74","","\x72\x65\x73\x75\x6C\x74\x49\x6E\x64\x65\x78","\x6C\x65\x6E\x67\x74\x68","\x72\x65\x73\x75\x6C\x74\x73","\x74\x72\x61\x6E\x73\x63\x72\x69\x70\x74","\x73\x65\x74\x49\x6E\x70\x75\x74","\x6F\x6E\x65\x6E\x64","\x73\x74\x6F\x70\x52\x65\x63\x6F\x67\x6E\x69\x74\x69\x6F\x6E","\x6C\x61\x6E\x67","\x65\x6E\x2D\x55\x53","\x73\x74\x61\x72\x74","\x73\x74\x6F\x70","\x73\x74\x61\x72\x74\x52\x65\x63\x6F\x67\x6E\x69\x74\x69\x6F\x6E","\x69\x6E\x6E\x65\x72\x54\x65\x78\x74","\x72\x65\x63\x6F\x72\x64","\x64\x6F\x6D\x45\x6C\x65\x6D\x65\x6E\x74\x73","\x53\x74\x6F\x70","\x53\x70\x65\x61\x6B","\x76\x61\x6C\x75\x65","\x73\x65\x6E\x64","\x62\x61\x73\x65\x55\x72\x6C","\x71\x75\x65\x72\x79\x3F\x76\x3D\x32\x30\x31\x35\x30\x39\x31\x30","\x42\x65\x61\x72\x65\x72","\x61\x63\x63\x65\x73\x73\x54\x6F\x6B\x65\x6E","\x49\x6E\x74\x65\x72\x6E\x61\x6C\x20\x53\x65\x72\x76\x65\x72\x20\x45\x72\x72\x6F\x72","\x73\x65\x74\x52\x65\x73\x70\x6F\x6E\x73\x65","\x63\x61\x74\x63\x68","\x73\x70\x65\x65\x63\x68","\x66\x75\x6C\x66\x69\x6C\x6C\x6D\x65\x6E\x74","\x72\x65\x73\x75\x6C\x74","\x65\x6E","\x74\x65\x78\x74","\x73\x70\x65\x61\x6B","\x74\x68\x65\x6E","\x6A\x73\x6F\x6E","\x50\x4F\x53\x54","\x61\x70\x70\x6C\x69\x63\x61\x74\x69\x6F\x6E\x2F\x6A\x73\x6F\x6E\x3B\x20\x63\x68\x61\x72\x73\x65\x74\x3D\x75\x74\x66\x2D\x38","\x3C\x61\x6E\x79\x20\x72\x61\x6E\x64\x6F\x6D\x20\x73\x74\x72\x69\x6E\x67\x3E","\x73\x74\x72\x69\x6E\x67\x69\x66\x79","\x4C\x6F\x61\x64\x69\x6E\x67\x2E\x2E\x2E","\x6B\x65\x79\x70\x72\x65\x73\x73","\x77\x68\x69\x63\x68","\x70\x72\x65\x76\x65\x6E\x74\x44\x65\x66\x61\x75\x6C\x74","\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72","\x63\x6C\x69\x63\x6B","\x73\x77\x69\x74\x63\x68\x52\x65\x63\x6F\x67\x6E\x69\x74\x69\x6F\x6E"];_0x5644[0];var config={accessToken:_0x5644[1],recognition:null,baseUrl:_0x5644[2],domElements:{input:document[_0x5644[4]](_0x5644[3]),record:document[_0x5644[4]](_0x5644[5]),response:document[_0x5644[4]](_0x5644[6])},startRecognition:function startRecognition(){var _0x3391x3=this;this[_0x5644[7]]=  new webkitSpeechRecognition();this[_0x5644[7]][_0x5644[8]]= function(_0x3391x4){_0x3391x3[_0x5644[9]]()};this[_0x5644[7]][_0x5644[10]]= function(_0x3391x4){var _0x3391x5=_0x5644[11];for(var _0x3391x6=_0x3391x4[_0x5644[12]];_0x3391x6< _0x3391x4[_0x5644[14]][_0x5644[13]];++_0x3391x6){_0x3391x5+= _0x3391x4[_0x5644[14]][_0x3391x6][0][_0x5644[15]]};_0x3391x3[_0x5644[16]](_0x3391x5)};this[_0x5644[7]][_0x5644[17]]= function(){_0x3391x3[_0x5644[18]]()};this[_0x5644[7]][_0x5644[19]]= _0x5644[20];this[_0x5644[7]][_0x5644[21]]()},stopRecognition:function stopRecognition(){if(this[_0x5644[7]]){this[_0x5644[7]][_0x5644[22]]();this[_0x5644[7]]= null};this[_0x5644[9]]()},switchRecognition:function switchRecognition(){this[_0x5644[7]]?this[_0x5644[18]]():this[_0x5644[23]]()},updateRec:function updateRec(){this[_0x5644[26]][_0x5644[25]][_0x5644[24]]= this[_0x5644[7]]?_0x5644[27]:_0x5644[28]},setInput:function setInput(_0x3391x5){this[_0x5644[26]][_0x5644[3]][_0x5644[29]]= _0x3391x5;this[_0x5644[30]]()},setResponse:function setResponse(_0x3391xc){this[_0x5644[26]][_0x5644[6]][_0x5644[24]]= _0x3391xc},send:function send(){var _0x3391xe=this;var _0x3391xf=this[_0x5644[31]]+ _0x5644[32],_0x3391x10=_0x5644[33]+ this[_0x5644[34]],_0x3391x5=this[_0x5644[26]][_0x5644[3]][_0x5644[29]];fetch(_0x3391xf,{method:_0x5644[46],headers:{"\x43\x6F\x6E\x74\x65\x6E\x74\x2D\x54\x79\x70\x65":_0x5644[47],"\x41\x75\x74\x68\x6F\x72\x69\x7A\x61\x74\x69\x6F\x6E":_0x3391x10},body:JSON[_0x5644[49]]({query:_0x3391x5,lang:_0x5644[41],sessionId:_0x5644[48]})})[_0x5644[44]](function(_0x3391x14){return _0x3391x14[_0x5644[45]]()})[_0x5644[44]](function(_0x3391x12){_0x3391xe[_0x5644[36]](_0x3391x12[_0x5644[40]][_0x5644[39]][_0x5644[38]]);var _0x3391x13= new SpeechSynthesisUtterance();_0x3391x13[_0x5644[19]]= _0x5644[41];_0x3391x13[_0x5644[42]]= _0x3391x12[_0x5644[40]][_0x5644[39]][_0x5644[38]];speechSynthesis[_0x5644[43]](_0x3391x13)})[_0x5644[37]](function(_0x3391x11){_0x3391xe[_0x5644[36]](_0x5644[35])});this[_0x5644[36]](_0x5644[50])}};config[_0x5644[26]][_0x5644[3]][_0x5644[54]](_0x5644[51],function(_0x3391x15){if(_0x3391x15[_0x5644[52]]== 13){_0x3391x15[_0x5644[53]]();config[_0x5644[30]]()}});config[_0x5644[26]][_0x5644[25]][_0x5644[54]](_0x5644[55],function(_0x3391x15){config[_0x5644[56]]()})
