@@ -85,13 +85,13 @@
 				})
 				.then( (response) => response.json() )
 				.then((data) => {
-					config.setResponse(JSON.stringify(data, undefined, 2));
+					this.setResponse(data.result.fulfillment.speech);
 				})
 				.catch((error) => {  
-				  config.setResponse("Internal Server Error"); 
+				  this.setResponse("Internal Server Error");  
 				});
 				
-				config.setResponse("Loading...");
+				this.setResponse("Loading...");
 			}
 		};
 		
